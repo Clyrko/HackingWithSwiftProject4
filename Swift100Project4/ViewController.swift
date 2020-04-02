@@ -8,7 +8,7 @@
 
 import WebKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WKNavigationDelegate{
     
     var webView: WKWebView!
     
@@ -16,13 +16,16 @@ class ViewController: UIViewController {
         
         webView = WKWebView()
         webView.navigationDelegate = self
-        view.webView
+        view = webView
         
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let url = URL(string: "https://twitter.com/Nucleme")!
+        webView.load(URLRequest(url: url))
+        webView.allowsBackForwardNavigationGestures = true
         
     }
 
