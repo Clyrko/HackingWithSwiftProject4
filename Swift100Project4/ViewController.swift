@@ -12,7 +12,7 @@ class ViewController: UIViewController, WKNavigationDelegate{
     
     var webView: WKWebView!
     var progressView: UIProgressView!
-    var websites = ["apple.com", "twitter.com/Nucleme"]
+    var websites = ["reddit.com", "apple.com"]
     
     override func loadView() {
         
@@ -43,14 +43,14 @@ class ViewController: UIViewController, WKNavigationDelegate{
         
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
         if keyPath == "estimatedProgress" {
             progressView.progress = Float(webView.estimatedProgress)
+            
         }
-        
     }
 
     @objc func openTouched() {
@@ -79,6 +79,26 @@ class ViewController: UIViewController, WKNavigationDelegate{
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         title = webView.title
+        
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        let url = navigationAction.request.url
+
+        if let host = url?.host {
+            
+            for website in websites {
+                
+                if host.contains(website) {
+                    
+                    decisionHandler(.allow)
+                    return
+                }
+                
+            }
+        }
+
+        decisionHandler(.cancel)
         
     }
 
