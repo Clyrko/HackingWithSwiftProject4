@@ -14,6 +14,7 @@ class ViewController: UIViewController, WKNavigationDelegate{
     var progressView: UIProgressView!
     var websites = ["reddit.com", "apple.com", "twitter.com/nucleme"]
     
+    // Calling loadview() before viewDidLoad()
     override func loadView() {
         
         webView = WKWebView()
